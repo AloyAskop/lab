@@ -101,6 +101,15 @@ class App:
         self.segment_output = tk.Text(root, height=40, width=20)
         self.segment_output.pack(pady=10)
 
+        self.dx_label = tk.Label(self.input_frame, text="Введите dx:")
+        self.dx_label.grid(row=4, column=0)
+        self.dx_entry = tk.Entry(self.input_frame)
+        self.dx_entry.grid(row=4, column=1)
+
+        self.dy_label = tk.Label(self.input_frame, text="Введите dy:")
+        self.dy_label.grid(row=5, column=0)
+        self.dy_entry = tk.Entry(self.input_frame)
+        self.dy_entry.grid(row=5, column=1)
     def create_pentagon(self):
         try:
             x = int(self.x_entry.get())
@@ -143,10 +152,15 @@ class App:
 
     def move_pentagon(self):
         if self.current_pentagon_index is not None:
-            self.pentagons[self.current_pentagon_index].move(10, 10)
-            self.canvas.delete("all")
-            for pentagon in self.pentagons:
-                pentagon.visualize(self.canvas)
+            try:
+                dx = int(self.dx_entry.get())
+                dy = int(self.dy_entry.get())
+                self.pentagons[self.current_pentagon_index].move(dx, dy)
+                self.canvas.delete("all")
+                for pentagon in self.pentagons:
+                    pentagon.visualize(self.canvas)
+            except ValueError:
+                messagebox.showerror("Ошибка", "Введите корректные значения для dx и dy.")
         else:
             messagebox.showwarning("Предупреждение", "Сначала выберите пятиугольник.")
 
